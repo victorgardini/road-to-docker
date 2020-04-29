@@ -2,7 +2,7 @@
 Este Readme é um material de consulta para usuários de docker.
 
 #### Criar um novo container
-> docker container run <nome_da_imagem> --name <nome_do_container>
+``` docker container run <nome_da_imagem> --name <nome_do_container> ```
 
 Concatenação de 4 comandos:
 -docker container pull: baixa a imagem 
@@ -12,115 +12,93 @@ Concatenação de 4 comandos:
 
 
 ### Criar imagem a partir de um Dockerfile
-> docker image build -t <image_name>
+``` docker image build -t <image_name> ```
 - Executar imagem criada:
-> docker container run <image_name>
+``` docker container run <image_name> ```
 
 ### Gerenciar containers já criados
-> docker container ps
-> docker container ps -q (retorna apenas ID)
-> docker container start <container_name>
-> docker container stop <container_name>
+``` docker container ps ```
+``` docker container ps -q (retorna apenas ID) ```
+``` docker container start <container_name> ```
+``` docker container stop <container_name> ```
+``` docker container prune (remover todos os stopped) ```
+``` docker container rm -f <id_do_container> (forca stop e remove) ```
 
 ### Modo Interativo
-> docker container run -it <container_name>
-> docker container start -ai <container_name>
-> docker container exec -t <container_name>
+``` docker container run -it <container_name> ```
+``` docker container start -ai <container_name> ```
+``` docker container exec -t <container_name> ```
 
 
 ### Modo daemon
 Modo daemon é uma opção utilizada para rodar containers em background. Para utilizar esse modo, apresente o parametro **-d** ao executar o comando. Exs:
-> docker container start <container_name> -d
-> docker container run <container_name> -d
-> docker-compose up -d
+``` docker container start <container_name> -d ```
+``` docker container run <container_name> -d ```
+``` docker-compose up -d ```
 
 
 ### Manipulação de containers em modo daemon
-> docker container ls
-> docker container ls -a
-> docker container inspect
-> docker container exec
-> docker container logs
+``` docker container ls ```
+``` docker container ls -a ```
+``` docker container inspect ```
+``` docker container exec ```
+``` docker container logs ```
 
 
 ### Comandos básicos no gerenciamento de imagens
-> docker image pull <tag>
+``` docker image pull <tag> ```
 Baixa a imagem solicitada, este comando pode ser executado implicitamente, quando o docker
 precisa de uma imagem para outra operação e não consegue localiza-la no cache local.
 
-> docker image ls
+``` docker image ls ```
 Lista todas as imagens já baixadas, é possível ainda usar a sintaxe antiga: docker images
 
-> docker image rm <tag>
+``` docker image rm <tag> ```
 Remove uma imagem do cache local, é possível ainda usar a sintaxe antiga: docker rmi <tag>
 
-> docker image inspect <tag>
+``` docker image inspect <tag> ```
 Extrai diversas informações utilizando um formato JSON da imagem indicada.
 
-> docker image tag <source> <tag>
+``` docker image tag <source> <tag> ```
 Cria uma nova tag baseada em uma tag anterior ou hash.
 
-> docker image build -t <tag>
+``` docker image build -t <tag> ```
 Permite a criação de uma nova imagem, como veremos melhor em build.
 
-> docker image push <tag>
+``` docker image push <tag> ```
 Permite o envio de uma imagem ou tag local para um registry.
 
 
-#### Rodar comando dentro do container
-docker run <nome_da_imagem> echo "Ola Mundo"
-
-#### Abrir terminal do container
-docker run -it <nome_da_imagem>
-
-#### Roda container já criado
-docker container start <id_do_container>
-docker container stop <id_do_container>
-docker container stop $(docker ps -q)
-
 #### Roda container já criado integrando terminal
-docker start -a -i <id_do_container>
+``` docker start -a -i <id_do_container> ```
 
-#### Remover container
-docker rm <id_do_container>
-docker container prune (remover todos os stopped)
-docker rm -f <id_do_container> (forca stop e remove)
-
-#### Mostrar imagens Docker
-docker images
-docker rmi <nome_da_imagem> (remove imagem)
-
-#### Não atrelar docker run ao terminal (segundo plano)
-docker run -d <nome_da_imagem>
 
 #### Encaminhamento de porta
-docker run -d -P <nome_da_imagem>
-docker run -d -p 12345:80 <nome_da_imagem>
-docker port <id_do_container> (Saber qual porta está encaminhando)
+``` docker run -d -P <nome_da_imagem> ```
+``` docker run -d -p 12345:80 <nome_da_imagem> ```
+``` docker port <id_do_container> (Saber qual porta está encaminhando) ```
 
 #### Dar nome ao container
-docker run -d -P --name <nome_que_quiser> <nome_da_imagem>
+``` docker run -d -P --name <nome_que_quiser> <nome_da_imagem> ```
 
 #### Setar variável de ambiente
--e NOMEVAR="conteudo"
+``` -e NOMEVAR="conteudo" ```
 
 #### Uso de volumes externos (-v = volume) (docker host)
-docker run -v "/var/www" <nome_da_imagem>
-docker inspect <id_do_container> (inspeciona qual pasta o diretorio foi criado)
-docker run -it -v "C:\Users\Alura\Desktop:/var/www" <nome_da_imagem>
+``` docker run -v "/var/www" <nome_da_imagem> ```
+``` docker inspect <id_do_container> (inspeciona qual pasta o diretorio foi criado) ```
+``` docker run -it -v "C:\Users\Alura\Desktop:/var/www" <nome_da_imagem> ```
 
 #### Working directory pra iniciar comando em container
-docker run -p 8080:3000 -v "C:\Users\Alura\Desktop\volume-exemplo:/var/www" -w "/var/www" node npm start (executa comando "npm start" dentro de -w "/var/www")
+``` docker run -p 8080:3000 -v "C:\Users\Alura\Desktop\volume-exemplo:/var/www" -w "/var/www" node npm start (executa  comando "npm start" dentro de -w "/var/www") ```
 
 #### Usar comandos dentro de comando docker
-$(pwd)
+``` $(pwd) ```
 
 # Create network
-```
-docker network create --driver bridge <name_network>
-docker network ls
-docker run -it --name <name_container> --network <name_network> <nome_da_imagem>
-```
+``` docker network create --driver bridge <name_network> ```
+``` docker network ls ```
+``` docker run -it --name <name_container> --network <name_network> <nome_da_imagem>```
 
 # Docker Swarm
 Orquestrar containers em cluster distintos
@@ -181,33 +159,31 @@ EXPOSE 3000 (porta que ficara exposto)
 ```
 
 ### Build
-```
-docker build -f nomearquivo.Dockerfile -t viniciosbarretos/nomeprojeto .
-```
+``` docker build -f nomearquivo.Dockerfile -t viniciosbarretos/nomeprojeto . ```
 
 #### docker-compose
 ##### Comandos:
-> docker-compose up -d
+``` docker-compose up -d ```
 Levanta todos os serviços em modo daemon
 
-> docker-compose ps
+``` docker-compose ps ```
 Similar ao docker container ps, mas se limitando aos serviços indicados no docker-compose.yml
 
-> docker-compose exec
+``` docker-compose exec ```
 Similar ao docker container exec, mas utilizando como referência o nome do serviço
 
-> docker-compose down
+``` docker-compose down ```
 Para todos os serviços e remove os containers
 
-> docker-compose logs -f -t
+``` docker-compose logs -f -t ```
 Exibe a saída do log de serviços
 - param -f: seguir log de saída
 - param -t: exibir timestamps
 
-> docker-compose restart
+``` docker-compose restart ```
 Reinicia os serviços
 
-> docker exec -it <id_container> bash
+``` docker exec -it <id_container> bash ```
 Executar comando no modo interativo
 
 ##### Exemplo
